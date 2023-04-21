@@ -1,0 +1,17 @@
+
+{
+  "name":"이순신",
+  "age":27,
+  "cars":[
+    {
+      "name":"k5",
+      "carNumber":"22나 2222",
+      "type":"sedan"
+    },
+    {
+      "name":"spotigy",
+      "carNumber":"33다 3333",
+      "type":"SUV"
+    }
+  ]
+}
