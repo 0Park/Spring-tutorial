@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Req <T>{
 
     private Header header;
-    private T body;
+    private T rBody;
 
     @Data
     @NoArgsConstructor

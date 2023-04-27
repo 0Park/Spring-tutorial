@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.lang.reflect.ParameterizedType;
 import java.net.URI;
 
 @Service
@@ -86,12 +85,12 @@ public class RestTemplateService {
         return response.getBody();
     }
 
-    public UserResponse genericExchange(){
+    public Req<UserResponse> genericExchange() {
         URI uri = UriComponentsBuilder
                 .fromUriString("http://localhost:9090")
                 .path("/api/server/user/{userId}/name/{userName}")
                 .encode()
-                .build().expand(100,"park").toUri();
+                .build().expand(100, "park").toUri();
         System.out.println(uri);
         // http body -> object -> object mapper -> json -> rest template -> http body json
         UserRequest userRequest = new UserRequest();
@@ -99,27 +98,28 @@ public class RestTemplateService {
         userRequest.setAge(25);
 
         Req<UserRequest> req = new Req<>();
-       req.setHeader(
-               new Req.Header()
-       );
-       req.setBody(
-               userRequest
-       );
+        req.setHeader(
+                new Req.Header()
+        );
+        req.setRBody(
+                userRequest
+        );
 
 
         RequestEntity<Req<UserRequest>> requestEntity = RequestEntity
                 .post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("x-authorization","abcd")
-                .header("custom-header","ffff")
+                .header("x-authorization", "abcd")
+                .header("custom-header", "ffff")
                 .body(req);
 
         RestTemplate restTemplate = new RestTemplate();
-        new ParameterizedTypeReference<Req<UserResponse>>(){};
+
         ResponseEntity<Req<UserResponse>> response
-                = restTemplate.exchange(requestEntity, new ParameterizedTypeReference<Req<UserResponse>>() {
-        });
+                = restTemplate.exchange(requestEntity,
+                new ParameterizedTypeReference<Req<UserResponse>>(){});
+
+        return response.getBody();
 
     }
-
 }
